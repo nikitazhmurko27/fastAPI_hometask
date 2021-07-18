@@ -3,6 +3,7 @@ from httpx import AsyncClient
 
 from main import app
 
+base_url = "http://127.0.0.1:8000/users"
 create_valid_user = {
     "name": "adam lallana",
     "username": "al",
@@ -19,7 +20,7 @@ create_invalid_user = {
 
 @pytest.mark.asyncio
 async def test_get_users():
-    async with AsyncClient(app=app, base_url="http://127.0.0.1:8000/users") as ac:
+    async with AsyncClient(app=app, base_url=base_url) as ac:
         response = await ac.get("/")
     assert response.status_code == 200
     user = response.json()[0]
@@ -32,7 +33,7 @@ async def test_get_users():
 
 @pytest.mark.asyncio
 async def test_create_valid_user():
-    async with AsyncClient(app=app, base_url="http://127.0.0.1:8000/users") as ac:
+    async with AsyncClient(app=app, base_url=base_url) as ac:
         response = await ac.post("/", json=create_valid_user)
     assert response.status_code == 201
     user = response.json()
@@ -44,7 +45,7 @@ async def test_create_valid_user():
 
 @pytest.mark.asyncio
 async def test_create_invalid_user():
-    async with AsyncClient(app=app, base_url="http://127.0.0.1:8000/users") as ac:
+    async with AsyncClient(app=app, base_url=base_url) as ac:
         response = await ac.post("/", json=create_invalid_user)
     assert response.status_code == 422
 
